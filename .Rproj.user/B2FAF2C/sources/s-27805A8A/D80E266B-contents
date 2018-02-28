@@ -1,0 +1,40 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Your API key for Giant Bomb is...
+c0d1c470c47b7e1e9968d69c748ea4eeba0acbcb 
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(httr)
+library(jsonlite)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r}
+options(stringsAsFactors = FALSE)
+```
+
+url  <- "http://api.epdb.eu"
+path <- "eurlex/directory_code"
+Executing an API call with the GET flavor is done using the GET() function.
+
+raw.result <- GET(url = url, path = path)
+
+```{r}
+url  <- "https://www.giantbomb.com"
+path <- "api/games/?api_key=c0d1c470c47b7e1e9968d69c748ea4eeba0acbcb&field_list=name,platforms&format=json"
+
+
+raw.result <- GET(url = url, path = path)
+```
+

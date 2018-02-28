@@ -1,0 +1,3 @@
+"0","url  <- ""https://www.giantbomb.com"""
+"0","path <- ""api/games/?api_key=c0d1c470c47b7e1e9968d69c748ea4eeba0acbcb&field_list=name,platforms&format=json"""
+"0","raw.result <- GET(url = url, path = path)"
