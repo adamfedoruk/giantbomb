@@ -12,6 +12,7 @@ Try executing this chunk by clicking the *Run* button within the chunk or by pla
 ```{r}
 library(httr)
 library(jsonlite)
+library(dplyr)
 ```
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
@@ -37,4 +38,55 @@ path <- "api/games/?api_key=c0d1c470c47b7e1e9968d69c748ea4eeba0acbcb&field_list=
 
 raw.result <- GET(url = url, path = path)
 ```
+
+```{r}
+json_file <- fromJSON(raw.result$content)
+
+json_file <- lapply(json_file, function(x) {
+  x[sapply(x, is.null)] <- NA
+  unlist(x)
+})
+```
+
+
+
+
+
+
+```{r}
+names(raw.result)
+head(raw.result$content)
+this.raw.content <- rawToChar(raw.result$content)
+this.content <-fromJSON(this.raw.content, flatten = TRUE)
+```
+
+```{r}
+#this should convert to dataframe, but alas, error? thanks for nothing, google
+#this.content.df <- do.call(what = "rbind",
+                          # args = lapply(this.content, as.data.frame))
+```
+Lets try to do it ourselves
+
+
+```{r}
+results<-this.content$results
+head(results)
+```
+
+Ok, so - we get a dataframe with a column with game names I instantly want to know more about Bass Avenger. 
+We also have a column for platforms, but this is a column of lists. Lists are tricky to work with and we will have to see if we can expand that to find out what platforms I can play Bass Avenger on. 
+
+Heres the contents of  
+
+```{r}
+results$platform[5] 
+```
+
+Alright, awesome. I have *both* those platforms! I'll check out Bass Avenger on my own time. _Back to the data!_
+
+```{r}
+platforms<-results$platforms
+```
+
+
 

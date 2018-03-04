@@ -1,0 +1,3 @@
+"0","json_file <- fromJSON(raw.result$content)"
+"2","Error: Argument 'txt' must be a JSON string, URL or file.
+"

@@ -178,9 +178,10 @@ $(document).ready(function () {
 <p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Ctrl+Shift+Enter</em>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShodHRyKVxubGlicmFyeShqc29ubGl0ZSlcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShodHRyKVxubGlicmFyeShqc29ubGl0ZSlcbmxpYnJhcnkoZHBseXIpXG5gYGAifQ== -->
 <pre class="r"><code>library(httr)
-library(jsonlite)</code></pre>
+library(jsonlite)
+library(dplyr)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -206,8 +207,98 @@ raw.result &lt;- GET(url = url, path = path)</code></pre>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuanNvbl9maWxlIDwtIGZyb21KU09OKHJhdy5yZXN1bHQkY29udGVudClcbmBgYCJ9 -->
+<pre class="r"><code>json_file &lt;- fromJSON(raw.result$content)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IEFyZ3VtZW50ICd0eHQnIG11c3QgYmUgYSBKU09OIHN0cmluZywgVVJMIG9yIGZpbGUuXG4ifQ== -->
+<pre><code>Error: Argument 'txt' must be a JSON string, URL or file.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMocmF3LnJlc3VsdClcbmBgYCJ9 -->
+<pre class="r"><code>names(raw.result)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcInVybFwiICAgICAgICAgXCJzdGF0dXNfY29kZVwiIFwiaGVhZGVyc1wiICAgICBcImFsbF9oZWFkZXJzXCJcbiBbNV0gXCJjb29raWVzXCIgICAgIFwiY29udGVudFwiICAgICBcImRhdGVcIiAgICAgICAgXCJ0aW1lc1wiICAgICAgXG4gWzldIFwicmVxdWVzdFwiICAgICBcImhhbmRsZVwiICAgICBcbiJ9 -->
+<pre><code> [1] &quot;url&quot;         &quot;status_code&quot; &quot;headers&quot;     &quot;all_headers&quot;
+ [5] &quot;cookies&quot;     &quot;content&quot;     &quot;date&quot;        &quot;times&quot;      
+ [9] &quot;request&quot;     &quot;handle&quot;     </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChyYXcucmVzdWx0JGNvbnRlbnQpXG5gYGAifQ== -->
+<pre class="r"><code>head(raw.result$content)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDdiIDIyIDY1IDcyIDcyIDZmXG4ifQ== -->
+<pre><code>[1] 7b 22 65 72 72 6f</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGhpcy5yYXcuY29udGVudCA8LSByYXdUb0NoYXIocmF3LnJlc3VsdCRjb250ZW50KVxudGhpcy5jb250ZW50IDwtZnJvbUpTT04odGhpcy5yYXcuY29udGVudCwgZmxhdHRlbiA9IFRSVUUpXG5gYGAifQ== -->
+<pre class="r"><code>this.raw.content &lt;- rawToChar(raw.result$content)
+this.content &lt;-fromJSON(this.raw.content, flatten = TRUE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGhpcy5jb250ZW50LmRmIDwtIGRvLmNhbGwod2hhdCA9IFwicmJpbmRcIixcbiAgICAgICAgICAgICAgICAgICAgICAgICAgIGFyZ3MgPSBsYXBwbHkodGhpcy5jb250ZW50LCBhcy5kYXRhLmZyYW1lKSlcbmBgYCJ9 -->
+<pre class="r"><code>this.content.df &lt;- do.call(what = &quot;rbind&quot;,
+                           args = lapply(this.content, as.data.frame))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gcmJpbmQoZGVwYXJzZS5sZXZlbCwgLi4uKSA6IFxuICBudW1iZXJzIG9mIGNvbHVtbnMgb2YgYXJndW1lbnRzIGRvIG5vdCBtYXRjaFxuIn0= -->
+<pre><code>Error in rbind(deparse.level, ...) : 
+  numbers of columns of arguments do not match</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Lets try to do it ourselves</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVzdWx0czwtdGhpcy5jb250ZW50JHJlc3VsdHNcbmhlYWQocmVzdWx0cylcbmBgYCJ9 -->
+<pre class="r"><code>results&lt;-this.content$results
+head(results)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUJ1MVlXMi9hU0JRMk5pUkEyclRiNXEwdjAxM3Rydlppb0VCSXQyK0dJRFpTRXFHNFV1Zyt0QnJNaEZqeFRUUERyVS85NWMyT3pReVlDVGpCMGE2NjBpS0I3VFB6blRtWGI4NGNjM0hjcXhaN1JVVlJWRVhMYW9xcXNkdXN5bjR5U2xZcGhOZXBvbWd2b3dtSzhweDlkL2pBNjJORUVLYkFwTmkrUWUvQUJhSWo3QUhxQTNxTlFHZmtYUEdKaFNaRzhPWUtJOFFGMy84NUN4RHVROGZ4N1FFNFJzNW95dkRtQ0kvdE1YUkFGMW8zZk9iQmU2YXFkWTBJY1NHaENJTnFwVkxoWTArYWtCQmdqSkUzUkpqTFhsMWV0b0hwTWdYSC9zUjdEY2FrQkM2TXl4QjJ4SVpmUnViUDNjbHhkd29jV3JxbU5DRHZ5dVhKWkZJYTJ0Q2pmZC90bHl6ZkxjUEFMZ2NPcEZjK2RzdTFTdjFRZjFOT2c2cWxRdFZUb1E1VG9ScXBVRWVwVUc5VG9mNFFxUEpXS0JaRVJYa2FwVHVrTnVOQXlITk9BMFlKWlpkOTgzejhvMFNObk9IYVE4Z2Y4aDNvSXREMFovejV1WGdHeG1BTVBVdVF2QkRKT3dnS2J1NTJrSWVJVGZoajBhQVEyK0IwNWsyNTVJV0poaENjellsdXp0akY1U00vbUNPMlljQzU3VkhrRFh6UVpsZE1vZTI1eUtPclU5VnVTN0wrNTRSQWhYNUpqUDUxOC9RaDgwanYrek9KemRYN0VUcWN4MFppOUcvM0lJY3NlaEtkZjBtQXpPTXJNZm4zQlBmRERPZ095NERFNC9wbURHRTUwdWZGU0NkUjRDVTJ0eE93WVJaMWoyZFJSL0VzcmloYmtQekh6Y29DSzA3dGVNSTE0K3hFc0tIVEZNSk8wMWdJT3d0aCs1emZaazgvblBlRTJEd3poZGc4YjV0eGFxMmNEVG1QWlludzVYTmN1TSsyMzZjQllvNDVuMGJZRVdCN0lGU0dJSDcvak5nVTNaMzhCUGI3R0kxdFNHM2ZrOWUwSEZiMytacENXQnl3WEphdWNLaDVkWG9CKzVPU01ETXNBT29YSmZxRWcxK2xzMENBVXRhV1RLeDJaTzdzeDB5YW5HYmsyS3UzLzBxNHRWdmxuZ2huYjJOZVovNFA1ajhielB5anVwU3RVdkFtSmF5YURsWkxCNnVuZ3gybWd6VWUyWFhrZVZyM1FvSncyWDdJSVo3ZWoxS2FWenFPUGNNbEZNTUJhREhlOGliRUNBSUhnWk9UeFhQVVRKanZCUWxidnV2NkF4OGowS2lMcW41bWlnSy85MWNQbUFHeUtCN2Q3UnVFRFZ2MkRVbk1uTnV2VzJKTExpbVcwQUhBMEVYZHRtVjZKVUdpQTUzUUxhaGxpVURwamJwTXJaODJ3MXd5bFJtVkVJRFBVNTN3Y011RTJxcUFpZFRFVG5odFNZcXMwVDJ0TG1Zc3VLQzExbEVnYTNiYnJYanV2ODE2cUg1Um9rOStUVTFVVTIzbG8wZHU1YkM1K0M2MlpkVkZiS0YxWnkrcEQyQVN0R1RMdHVMRWNuM2p2NUJQWGdqVk5mblVVdVh6YmJxS251NDlzbG9STkFqZkgxOG84NzhVRGlRSERyb09uSmswaWhEbytxekg3enNpcWsvalkySzM1bnQ5ZndwcWpZcWs2Q2lCQ0V3Tm1hdlJBNzZFSEpIS3crQlZPU1FKRlhiS0ROV1pvZkZ3eEMzV3VtWjNlU3Y4eS9ZaTM3NVJTdklTbzgwcHVXS2t1c2FJZ3FBRTJhQm81eUVtaUtVV283dCtFSnJQbEtycnV1Z01sZ1RQUmw1b0ZEdFZyMGZlalY0TEYxQ1dEYVJvSm5kaTkrcUdGT3dnYjJoN3dyK2NBL3RJaEhhZnZUNUZiMCtsQUxQM1Z1RUprNUlTOVNrVTg0cVc3d2hKNUp2eTlXOVRNbHlnV3hRQUFBPT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["platforms"],"name":[2],"type":["list"],"align":["right"]}],"data":[{"1":"Desert Strike: Return to the Gulf","2":"<data.frame [9 × 5]>","_rn_":"1"},{"1":"Breakfree","2":"<data.frame [1 × 5]>","_rn_":"2"},{"1":"Hyperballoid Deluxe: Survival Pack","2":"<data.frame [1 × 5]>","_rn_":"3"},{"1":"The Chessmaster 2000","2":"<data.frame [8 × 5]>","_rn_":"4"},{"1":"Bass Avenger","2":"<data.frame [2 × 5]>","_rn_":"5"},{"1":"WWE SmackDown! vs. RAW 2007","2":"<data.frame [3 × 5]>","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Ok, so - we get a dataframe with a column with game names I instantly want to know more about Bass Avenger. We also have a column for platforms, but this is a column of lists. Lists are tricky to work with and we will have to see if we can expand that to find out what platforms I can play Bass Avenger on.</p>
+<p>Heres the contents of</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVzdWx0cyRwbGF0Zm9ybVs1XSBcbmBgYCJ9 -->
+<pre class="r"><code>results$platform[5] </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiW1sxXV1cbiJ9 -->
+<pre><code>[[1]]</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6NSwibnJvdyI6Mn0sInJkZiI6Ikg0c0lBQUFBQUFBQUJwMVN5MDdETUJEY3ZFQ05vQVh4RFhCcnpLTUl3UTJWS3hMaTFCUFZ4a2xiaThTT0hKZnc5UVVudGF2R3FCY09hNC9HTzVyWmxkOWZacmZ4TEFZQUg0SXdBRC9RTVBUMTRVRUlnL2IrQmdndU5JaDBuWFdOMndleVVxcXFud2hwbWlaWk11UXFGV1dhVUZFU3JCaXBDbFFMSVV0eWR6MjVIOTg4a1AvSUhpZEVTMDQ3VjRCelhSOU9pdUFWcVlIKzI5UjV2RHJzVlNKMWsxMGU3cTdvZnA2Ky8vTjAzNyszdTRoam1kZEdFUmx5cU1lY1o3bENWc3pYc3JCaWxoa1V0aUtEUnpWVCtkL21FMHhUbVg4eFZFeHd4M01nUlpOWVg3czViM3YzdzlFQ2F4dk9rbkdHQ3BPRmJDTUFiQnpKc2FoYVJ5M3k5My9FN3F0SWh4aXRlWnNrRzlQVm1uK09KNjJCU2VPWmRDYlpEa2RiUy8vSDJkcFJ6cGVNMjcxRUJhYTUzY1pRVDl3Tm5GU1NjV1VuMFd5ZEtLSFE5c1ZVRkpicFpvUE5MMFE5UVdQL0FnQUEifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["api_detail_url"],"name":[1],"type":["chr"],"align":["left"]},{"label":["id"],"name":[2],"type":["int"],"align":["right"]},{"label":["name"],"name":[3],"type":["chr"],"align":["left"]},{"label":["site_detail_url"],"name":[4],"type":["chr"],"align":["left"]},{"label":["abbreviation"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"https://www.giantbomb.com/api/platform/3045-17/","2":"17","3":"Mac","4":"https://www.giantbomb.com/mac/3045-17/","5":"MAC","_rn_":"1"},{"1":"https://www.giantbomb.com/api/platform/3045-94/","2":"94","3":"PC","4":"https://www.giantbomb.com/pc/3045-94/","5":"PC","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10],"total":[5]},"rows":{"min":[10],"max":[10],"total":[2]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTkFcbiJ9 -->
+<pre><code>NA</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Alright, awesome. I have <em>both</em> those platforms! I’ll check out Bass Avenger on my own time. <em>Back to the data!</em></p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGxhdGZvcm1zPC1yZXN1bHRzJHBsYXRmb3Jtc1xuYGBgIn0= -->
+<pre class="r"><code>platforms&lt;-results$platforms</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KWW91ciBBUEkga2V5IGZvciBHaWFudCBCb21iIGlzLi4uDQpjMGQxYzQ3MGM0N2I3ZTFlOTk2OGQ2OWM3NDhlYTRlZWJhMGFjYmNiIA0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCg0KYGBge3J9DQpsaWJyYXJ5KGh0dHIpDQpsaWJyYXJ5KGpzb25saXRlKQ0KYGBgDQoNCkFkZCBhIG5ldyBjaHVuayBieSBjbGlja2luZyB0aGUgKkluc2VydCBDaHVuayogYnV0dG9uIG9uIHRoZSB0b29sYmFyIG9yIGJ5IHByZXNzaW5nICpDdHJsK0FsdCtJKi4NCg0KV2hlbiB5b3Ugc2F2ZSB0aGUgbm90ZWJvb2ssIGFuIEhUTUwgZmlsZSBjb250YWluaW5nIHRoZSBjb2RlIGFuZCBvdXRwdXQgd2lsbCBiZSBzYXZlZCBhbG9uZ3NpZGUgaXQgKGNsaWNrIHRoZSAqUHJldmlldyogYnV0dG9uIG9yIHByZXNzICpDdHJsK1NoaWZ0K0sqIHRvIHByZXZpZXcgdGhlIEhUTUwgZmlsZSkuDQoNClRoZSBwcmV2aWV3IHNob3dzIHlvdSBhIHJlbmRlcmVkIEhUTUwgY29weSBvZiB0aGUgY29udGVudHMgb2YgdGhlIGVkaXRvci4gQ29uc2VxdWVudGx5LCB1bmxpa2UgKktuaXQqLCAqUHJldmlldyogZG9lcyBub3QgcnVuIGFueSBSIGNvZGUgY2h1bmtzLiBJbnN0ZWFkLCB0aGUgb3V0cHV0IG9mIHRoZSBjaHVuayB3aGVuIGl0IHdhcyBsYXN0IHJ1biBpbiB0aGUgZWRpdG9yIGlzIGRpc3BsYXllZC4NCg0KYGBge3J9DQpvcHRpb25zKHN0cmluZ3NBc0ZhY3RvcnMgPSBGQUxTRSkNCmBgYA0KDQp1cmwgIDwtICJodHRwOi8vYXBpLmVwZGIuZXUiDQpwYXRoIDwtICJldXJsZXgvZGlyZWN0b3J5X2NvZGUiDQpFeGVjdXRpbmcgYW4gQVBJIGNhbGwgd2l0aCB0aGUgR0VUIGZsYXZvciBpcyBkb25lIHVzaW5nIHRoZSBHRVQoKSBmdW5jdGlvbi4NCg0KcmF3LnJlc3VsdCA8LSBHRVQodXJsID0gdXJsLCBwYXRoID0gcGF0aCkNCg0KYGBge3J9DQp1cmwgIDwtICJodHRwczovL3d3dy5naWFudGJvbWIuY29tIg0KcGF0aCA8LSAiYXBpL2dhbWVzLz9hcGlfa2V5PWMwZDFjNDcwYzQ3YjdlMWU5OTY4ZDY5Yzc0OGVhNGVlYmEwYWNiY2ImZmllbGRfbGlzdD1uYW1lLHBsYXRmb3JtcyZmb3JtYXQ9anNvbiINCg0KDQpyYXcucmVzdWx0IDwtIEdFVCh1cmwgPSB1cmwsIHBhdGggPSBwYXRoKQ0KYGBgDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KWW91ciBBUEkga2V5IGZvciBHaWFudCBCb21iIGlzLi4uDQpjMGQxYzQ3MGM0N2I3ZTFlOTk2OGQ2OWM3NDhlYTRlZWJhMGFjYmNiIA0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCg0KYGBge3J9DQpsaWJyYXJ5KGh0dHIpDQpsaWJyYXJ5KGpzb25saXRlKQ0KbGlicmFyeShkcGx5cikNCmBgYA0KDQpBZGQgYSBuZXcgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpJbnNlcnQgQ2h1bmsqIGJ1dHRvbiBvbiB0aGUgdG9vbGJhciBvciBieSBwcmVzc2luZyAqQ3RybCtBbHQrSSouDQoNCldoZW4geW91IHNhdmUgdGhlIG5vdGVib29rLCBhbiBIVE1MIGZpbGUgY29udGFpbmluZyB0aGUgY29kZSBhbmQgb3V0cHV0IHdpbGwgYmUgc2F2ZWQgYWxvbmdzaWRlIGl0IChjbGljayB0aGUgKlByZXZpZXcqIGJ1dHRvbiBvciBwcmVzcyAqQ3RybCtTaGlmdCtLKiB0byBwcmV2aWV3IHRoZSBIVE1MIGZpbGUpLg0KDQpUaGUgcHJldmlldyBzaG93cyB5b3UgYSByZW5kZXJlZCBIVE1MIGNvcHkgb2YgdGhlIGNvbnRlbnRzIG9mIHRoZSBlZGl0b3IuIENvbnNlcXVlbnRseSwgdW5saWtlICpLbml0KiwgKlByZXZpZXcqIGRvZXMgbm90IHJ1biBhbnkgUiBjb2RlIGNodW5rcy4gSW5zdGVhZCwgdGhlIG91dHB1dCBvZiB0aGUgY2h1bmsgd2hlbiBpdCB3YXMgbGFzdCBydW4gaW4gdGhlIGVkaXRvciBpcyBkaXNwbGF5ZWQuDQoNCmBgYHtyfQ0Kb3B0aW9ucyhzdHJpbmdzQXNGYWN0b3JzID0gRkFMU0UpDQpgYGANCg0KdXJsICA8LSAiaHR0cDovL2FwaS5lcGRiLmV1Ig0KcGF0aCA8LSAiZXVybGV4L2RpcmVjdG9yeV9jb2RlIg0KRXhlY3V0aW5nIGFuIEFQSSBjYWxsIHdpdGggdGhlIEdFVCBmbGF2b3IgaXMgZG9uZSB1c2luZyB0aGUgR0VUKCkgZnVuY3Rpb24uDQoNCnJhdy5yZXN1bHQgPC0gR0VUKHVybCA9IHVybCwgcGF0aCA9IHBhdGgpDQoNCmBgYHtyfQ0KdXJsICA8LSAiaHR0cHM6Ly93d3cuZ2lhbnRib21iLmNvbSINCnBhdGggPC0gImFwaS9nYW1lcy8/YXBpX2tleT1jMGQxYzQ3MGM0N2I3ZTFlOTk2OGQ2OWM3NDhlYTRlZWJhMGFjYmNiJmZpZWxkX2xpc3Q9bmFtZSxwbGF0Zm9ybXMmZm9ybWF0PWpzb24iDQoNCg0KcmF3LnJlc3VsdCA8LSBHRVQodXJsID0gdXJsLCBwYXRoID0gcGF0aCkNCmBgYA0KDQpgYGB7cn0NCmpzb25fZmlsZSA8LSBmcm9tSlNPTihyYXcucmVzdWx0JGNvbnRlbnQpDQoNCmpzb25fZmlsZSA8LSBsYXBwbHkoanNvbl9maWxlLCBmdW5jdGlvbih4KSB7DQogIHhbc2FwcGx5KHgsIGlzLm51bGwpXSA8LSBOQQ0KICB1bmxpc3QoeCkNCn0pDQpgYGANCg0KDQoNCg0KDQoNCmBgYHtyfQ0KbmFtZXMocmF3LnJlc3VsdCkNCmhlYWQocmF3LnJlc3VsdCRjb250ZW50KQ0KdGhpcy5yYXcuY29udGVudCA8LSByYXdUb0NoYXIocmF3LnJlc3VsdCRjb250ZW50KQ0KdGhpcy5jb250ZW50IDwtZnJvbUpTT04odGhpcy5yYXcuY29udGVudCwgZmxhdHRlbiA9IFRSVUUpDQpgYGANCg0KYGBge3J9DQojdGhpcyBzaG91bGQgY29udmVydCB0byBkYXRhZnJhbWUsIGJ1dCBhbGFzLCBlcnJvcj8gdGhhbmtzIGZvciBub3RoaW5nLCBnb29nbGUNCiN0aGlzLmNvbnRlbnQuZGYgPC0gZG8uY2FsbCh3aGF0ID0gInJiaW5kIiwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgIyBhcmdzID0gbGFwcGx5KHRoaXMuY29udGVudCwgYXMuZGF0YS5mcmFtZSkpDQpgYGANCkxldHMgdHJ5IHRvIGRvIGl0IG91cnNlbHZlcw0KDQoNCmBgYHtyfQ0KcmVzdWx0czwtdGhpcy5jb250ZW50JHJlc3VsdHMNCmhlYWQocmVzdWx0cykNCmBgYA0KDQpPaywgc28gLSB3ZSBnZXQgYSBkYXRhZnJhbWUgd2l0aCBhIGNvbHVtbiB3aXRoIGdhbWUgbmFtZXMgSSBpbnN0YW50bHkgd2FudCB0byBrbm93IG1vcmUgYWJvdXQgQmFzcyBBdmVuZ2VyLiANCldlIGFsc28gaGF2ZSBhIGNvbHVtbiBmb3IgcGxhdGZvcm1zLCBidXQgdGhpcyBpcyBhIGNvbHVtbiBvZiBsaXN0cy4gTGlzdHMgYXJlIHRyaWNreSB0byB3b3JrIHdpdGggYW5kIHdlIHdpbGwgaGF2ZSB0byBzZWUgaWYgd2UgY2FuIGV4cGFuZCB0aGF0IHRvIGZpbmQgb3V0IHdoYXQgcGxhdGZvcm1zIEkgY2FuIHBsYXkgQmFzcyBBdmVuZ2VyIG9uLiANCg0KSGVyZXMgdGhlIGNvbnRlbnRzIG9mICANCg0KYGBge3J9DQpyZXN1bHRzJHBsYXRmb3JtWzVdIA0KYGBgDQoNCkFscmlnaHQsIGF3ZXNvbWUuIEkgaGF2ZSAqYm90aCogdGhvc2UgcGxhdGZvcm1zISBJJ2xsIGNoZWNrIG91dCBCYXNzIEF2ZW5nZXIgb24gbXkgb3duIHRpbWUuIF9CYWNrIHRvIHRoZSBkYXRhIV8NCg0KYGBge3J9DQpwbGF0Zm9ybXM8LXJlc3VsdHMkcGxhdGZvcm1zDQpgYGANCg0KDQoNCg==</div>
 
 
 
